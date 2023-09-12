@@ -1,0 +1,380 @@
+***************
+** Arguments **
+***************
+backbone: 
+config_file: configs/trainers/StyleMatch/ssdg_officehome_v1.yaml
+dataset_config_file: configs/datasets/ssdg_officehome.yaml
+eval_only: False
+head: 
+load_epoch: None
+model_dir: 
+no_train: False
+opts: ['MODEL.BACKBONE.NAME', 'resnet18', 'DATASET.NUM_LABELED', '975']
+output_dir: output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9
+resume: 
+root: ../data
+seed: 9
+source_domains: ['art', 'clipart', 'real_world']
+target_domains: ['product']
+trainer: StyleMatch
+transforms: None
+************
+** Config **
+************
+DATALOADER:
+  K_TRANSFORMS: 1
+  NUM_WORKERS: 4
+  RETURN_IMG0: True
+  TEST:
+    BATCH_SIZE: 100
+    SAMPLER: SequentialSampler
+  TRAIN_U:
+    BATCH_SIZE: 32
+    N_DOMAIN: 0
+    N_INS: 16
+    SAME_AS_X: True
+    SAMPLER: RandomSampler
+  TRAIN_X:
+    BATCH_SIZE: 192
+    N_DOMAIN: 0
+    N_INS: 16
+    SAMPLER: SeqDomainSampler
+DATASET:
+  ALL_AS_UNLABELED: False
+  CIFAR_C_LEVEL: 1
+  CIFAR_C_TYPE: 
+  NAME: SSDGOfficeHome
+  NUM_LABELED: 975
+  NUM_SHOTS: -1
+  ROOT: ../data
+  SOURCE_DOMAINS: ['art', 'clipart', 'real_world']
+  STL10_FOLD: -1
+  TARGET_DOMAINS: ['product']
+  VAL_PERCENT: 0.1
+INPUT:
+  COLORJITTER_B: 0.4
+  COLORJITTER_C: 0.4
+  COLORJITTER_H: 0.1
+  COLORJITTER_S: 0.4
+  CROP_PADDING: 4
+  CUTOUT_LEN: 16
+  CUTOUT_N: 1
+  GB_K: 21
+  GB_P: 0.5
+  GN_MEAN: 0.0
+  GN_STD: 0.15
+  INTERPOLATION: bilinear
+  NO_TRANSFORM: False
+  PIXEL_MEAN: [0.485, 0.456, 0.406]
+  PIXEL_STD: [0.229, 0.224, 0.225]
+  RANDAUGMENT_M: 10
+  RANDAUGMENT_N: 2
+  RGS_P: 0.2
+  RRCROP_SCALE: (0.08, 1.0)
+  SIZE: (224, 224)
+  TRANSFORMS: ('random_flip', 'random_translation', 'normalize')
+MODEL:
+  BACKBONE:
+    NAME: resnet18
+    PRETRAINED: True
+  HEAD:
+    ACTIVATION: relu
+    BN: True
+    DROPOUT: 0.0
+    HIDDEN_LAYERS: ()
+    NAME: 
+  INIT_WEIGHTS: 
+OPTIM:
+  ADAM_BETA1: 0.9
+  ADAM_BETA2: 0.999
+  BASE_LR_MULT: 0.1
+  GAMMA: 0.1
+  LR: 0.003
+  LR_SCHEDULER: cosine
+  MAX_EPOCH: 20
+  MOMENTUM: 0.9
+  NAME: sgd
+  NEW_LAYERS: ()
+  RMSPROP_ALPHA: 0.99
+  SGD_DAMPNING: 0
+  SGD_NESTEROV: False
+  STAGED_LR: False
+  STEPSIZE: (-1,)
+  WARMUP_CONS_LR: 1e-05
+  WARMUP_EPOCH: -1
+  WARMUP_MIN_LR: 1e-05
+  WARMUP_RECOUNT: True
+  WARMUP_TYPE: linear
+  WEIGHT_DECAY: 0.0005
+OUTPUT_DIR: output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9
+RESUME: 
+SEED: 9
+TEST:
+  COMPUTE_CMAT: False
+  EVALUATOR: Classification
+  FINAL_MODEL: last_step
+  NO_TEST: False
+  PER_CLASS_RESULT: False
+  SPLIT: test
+TRAIN:
+  CHECKPOINT_FREQ: 0
+  COUNT_ITER: train_u
+  PRINT_FREQ: 10
+TRAINER:
+  CDAC:
+    CLASS_LR_MULTI: 10
+    P_THRESH: 0.95
+    RAMPUP_COEF: 30
+    RAMPUP_ITRS: 1000
+    STRONG_TRANSFORMS: ()
+    TOPK_MATCH: 5
+  CROSSGRAD:
+    ALPHA_D: 0.5
+    ALPHA_F: 0.5
+    EPS_D: 1.0
+    EPS_F: 1.0
+  DAEL:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DAELDG:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 0.5
+  DDAIG:
+    ALPHA: 0.5
+    CLAMP: False
+    CLAMP_MAX: 1.0
+    CLAMP_MIN: -1.0
+    G_ARCH: 
+    LMDA: 0.3
+    WARMUP: 0
+  DOMAINMIX:
+    ALPHA: 1.0
+    BETA: 1.0
+    TYPE: crossdomain
+  ENTMIN:
+    LMDA: 0.001
+  FIXMATCH:
+    CONF_THRE: 0.95
+    STRONG_TRANSFORMS: ()
+    WEIGHT_U: 1.0
+  M3SDA:
+    LMDA: 0.5
+    N_STEP_F: 4
+  MCD:
+    N_STEP_F: 4
+  MEANTEACHER:
+    EMA_ALPHA: 0.999
+    RAMPUP: 5
+    WEIGHT_U: 1.0
+  MIXMATCH:
+    MIXUP_BETA: 0.75
+    RAMPUP: 20000
+    TEMP: 2.0
+    WEIGHT_U: 100.0
+  MME:
+    LMDA: 0.1
+  NAME: StyleMatch
+  SE:
+    CONF_THRE: 0.95
+    EMA_ALPHA: 0.999
+    RAMPUP: 300
+  STYLEMATCH:
+    ADAIN_DECODER: weights/decoder.pth
+    ADAIN_VGG: weights/vgg_normalised.pth
+    APPLY_AUG: True
+    APPLY_STY: True
+    CLASSIFIER: stochastic
+    CONF_THRE: 0.95
+    C_OPTIM:
+      ADAM_BETA1: 0.9
+      ADAM_BETA2: 0.999
+      BASE_LR_MULT: 0.1
+      GAMMA: 0.1
+      LR: 0.01
+      LR_SCHEDULER: cosine
+      MAX_EPOCH: 20
+      MOMENTUM: 0.9
+      NAME: sgd
+      NEW_LAYERS: ()
+      RMSPROP_ALPHA: 0.99
+      SGD_DAMPNING: 0
+      SGD_NESTEROV: False
+      STAGED_LR: False
+      STEPSIZE: (-1,)
+      WARMUP_CONS_LR: 1e-05
+      WARMUP_EPOCH: -1
+      WARMUP_MIN_LR: 1e-05
+      WARMUP_RECOUNT: True
+      WARMUP_TYPE: linear
+      WEIGHT_DECAY: 0.0005
+    INFERENCE_MODE: deterministic
+    N_ENSEMBLE: 10
+    SAVE_SIGMA: False
+    STRONG_TRANSFORMS: ('random_flip', 'randaugment_fixmatch', 'normalize', 'cutout')
+USE_CUDA: True
+VERBOSE: True
+VERSION: 1
+Collecting env info ...
+** System info **
+PyTorch version: 2.0.1+cu117
+Is debug build: False
+CUDA used to build PyTorch: 11.7
+ROCM used to build PyTorch: N/A
+
+OS: Ubuntu 18.04.5 LTS (x86_64)
+GCC version: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+Clang version: Could not collect
+CMake version: version 3.27.0
+Libc version: glibc-2.27
+
+Python version: 3.9.17 (main, Jul  5 2023, 20:41:20)  [GCC 11.2.0] (64-bit runtime)
+Python platform: Linux-5.15.0-57-generic-x86_64-with-glibc2.27
+Is CUDA available: True
+CUDA runtime version: 11.1.105
+CUDA_MODULE_LOADING set to: LAZY
+GPU models and configuration: GPU 0: NVIDIA A40
+Nvidia driver version: 470.161.03
+cuDNN version: Probably one of the following:
+/usr/lib/x86_64-linux-gnu/libcudnn.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_infer.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_adv_train.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_infer.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_cnn_train.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_infer.so.8.0.5
+/usr/lib/x86_64-linux-gnu/libcudnn_ops_train.so.8.0.5
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+Is XNNPACK available: True
+
+CPU:
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              256
+On-line CPU(s) list: 0-255
+Thread(s) per core:  2
+Core(s) per socket:  64
+Socket(s):           2
+NUMA node(s):        2
+Vendor ID:           AuthenticAMD
+CPU family:          25
+Model:               1
+Model name:          AMD EPYC 7763 64-Core Processor
+Stepping:            1
+CPU MHz:             2450.000
+CPU max MHz:         3529.0520
+CPU min MHz:         1500.0000
+BogoMIPS:            4899.85
+Virtualization:      AMD-V
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            512K
+L3 cache:            32768K
+NUMA node0 CPU(s):   0-63,128-191
+NUMA node1 CPU(s):   64-127,192-255
+Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 invpcid_single hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 invpcid cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd amd_ppin arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload vgif v_spec_ctrl umip pku ospke vaes vpclmulqdq rdpid overflow_recov succor smca
+
+Versions of relevant libraries:
+[pip3] numpy==1.25.1
+[pip3] torch==2.0.1
+[pip3] torchvision==0.15.2
+[conda] numpy                     1.25.1                   pypi_0    pypi
+[conda] torch                     2.0.1                    pypi_0    pypi
+[conda] torchvision               0.15.2                   pypi_0    pypi
+        Pillow (10.0.0)
+
+Loading trainer: StyleMatch
+Building transform_train
++ resize to 224x224
++ random translation
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+Building transform_train
++ resize to 224x224
++ random flip
++ randaugment_fixmatch (n=2)
++ to torch tensor of range [0, 1]
++ cutout (n_holes=1, length=16)
++ normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+Loading dataset: SSDGOfficeHome
+Reading split from "/output/data/office_home_dg/splits_ssdg/product_nlab975_seed9.json"
+* Using custom transform for training
+Building transform_test
++ resize the smaller edge to 224
++ 224x224 center crop
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+---------  --------------------------------
+Dataset    SSDGOfficeHome
+Source     ['art', 'clipart', 'real_world']
+Target     ['product']
+# classes  65
+# train_x  975
+# train_u  8,988
+# val      1,186
+# test     4,439
+---------  --------------------------------
+Building G
+Backbone: resnet18
+# params: 11,176,512
+Building C
+# params: 66,560
+Loading evaluator: Classification
+No checkpoint found, train from scratch
+Initialize tensorboard (log_dir=output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9/tensorboard)
+epoch [1/20] batch [10/28] time 1.507 (2.314) data 0.001 (0.378) loss_x 8.4713 (11.7424) loss_u_aug 0.1237 (0.0237) loss_u_sty 0.1438 (0.0240) y_u_pred_acc_thre 1.0000 (0.2000) y_u_pred_acc_raw 0.4271 (0.1667) y_u_pred_keep_rate 0.0312 (0.0052) lr 3.0000e-03 eta 0:21:12
+epoch [1/20] batch [20/28] time 1.504 (2.082) data 0.001 (0.353) loss_x 3.7977 (8.4937) loss_u_aug 0.2783 (0.1234) loss_u_sty 0.4430 (0.1810) y_u_pred_acc_thre 1.0000 (0.5845) y_u_pred_acc_raw 0.4896 (0.3138) y_u_pred_keep_rate 0.0729 (0.0333) lr 3.0000e-03 eta 0:18:44
+epoch [2/20] batch [10/28] time 1.507 (1.856) data 0.001 (0.320) loss_x 1.4215 (1.7132) loss_u_aug 0.3871 (0.3853) loss_u_sty 0.7133 (0.6552) y_u_pred_acc_thre 0.9333 (0.9448) y_u_pred_acc_raw 0.5625 (0.5698) y_u_pred_keep_rate 0.1562 (0.1479) lr 2.9815e-03 eta 0:16:08
+epoch [2/20] batch [20/28] time 1.510 (1.849) data 0.001 (0.322) loss_x 0.9953 (1.4113) loss_u_aug 0.4142 (0.4361) loss_u_sty 0.7384 (0.7457) y_u_pred_acc_thre 0.9667 (0.9500) y_u_pred_acc_raw 0.5781 (0.5724) y_u_pred_keep_rate 0.1562 (0.1536) lr 2.9815e-03 eta 0:15:46
+epoch [3/20] batch [10/28] time 1.521 (1.855) data 0.001 (0.333) loss_x 0.6636 (0.6245) loss_u_aug 0.5355 (0.5586) loss_u_sty 0.7138 (0.8395) y_u_pred_acc_thre 0.9756 (0.9497) y_u_pred_acc_raw 0.6667 (0.6125) y_u_pred_keep_rate 0.2135 (0.1974) lr 2.9266e-03 eta 0:15:16
+epoch [3/20] batch [20/28] time 1.515 (1.842) data 0.001 (0.323) loss_x 0.4104 (0.5550) loss_u_aug 0.5892 (0.5728) loss_u_sty 0.9713 (0.8649) y_u_pred_acc_thre 0.9487 (0.9588) y_u_pred_acc_raw 0.5990 (0.6068) y_u_pred_keep_rate 0.2031 (0.2086) lr 2.9266e-03 eta 0:14:51
+epoch [4/20] batch [10/28] time 1.523 (1.855) data 0.001 (0.338) loss_x 0.3046 (0.3594) loss_u_aug 0.7774 (0.6395) loss_u_sty 0.9694 (0.9969) y_u_pred_acc_thre 0.9167 (0.9407) y_u_pred_acc_raw 0.6250 (0.6193) y_u_pred_keep_rate 0.2500 (0.2505) lr 2.8365e-03 eta 0:14:24
+epoch [4/20] batch [20/28] time 1.511 (1.861) data 0.001 (0.346) loss_x 0.2921 (0.3300) loss_u_aug 0.8249 (0.6643) loss_u_sty 1.0563 (1.0286) y_u_pred_acc_thre 0.9800 (0.9493) y_u_pred_acc_raw 0.6250 (0.6234) y_u_pred_keep_rate 0.2604 (0.2568) lr 2.8365e-03 eta 0:14:08
+epoch [5/20] batch [10/28] time 1.519 (1.834) data 0.001 (0.308) loss_x 0.2053 (0.2219) loss_u_aug 0.4025 (0.6137) loss_u_sty 1.2255 (1.2046) y_u_pred_acc_thre 0.9787 (0.9535) y_u_pred_acc_raw 0.5938 (0.6141) y_u_pred_keep_rate 0.2448 (0.2745) lr 2.7135e-03 eta 0:13:23
+epoch [5/20] batch [20/28] time 1.529 (1.858) data 0.001 (0.327) loss_x 0.2525 (0.2096) loss_u_aug 0.5187 (0.6538) loss_u_sty 1.1122 (1.1874) y_u_pred_acc_thre 0.9839 (0.9473) y_u_pred_acc_raw 0.7240 (0.6182) y_u_pred_keep_rate 0.3229 (0.2875) lr 2.7135e-03 eta 0:13:15
+epoch [6/20] batch [10/28] time 1.520 (1.845) data 0.001 (0.323) loss_x 0.1677 (0.1580) loss_u_aug 0.8179 (0.7569) loss_u_sty 1.1092 (1.1154) y_u_pred_acc_thre 0.9565 (0.9359) y_u_pred_acc_raw 0.6354 (0.6266) y_u_pred_keep_rate 0.3594 (0.3099) lr 2.5607e-03 eta 0:12:36
+epoch [6/20] batch [20/28] time 1.591 (1.842) data 0.001 (0.317) loss_x 0.1346 (0.1473) loss_u_aug 0.7646 (0.7437) loss_u_sty 1.0588 (1.0955) y_u_pred_acc_thre 0.9412 (0.9396) y_u_pred_acc_raw 0.6719 (0.6305) y_u_pred_keep_rate 0.3542 (0.3138) lr 2.5607e-03 eta 0:12:16
+epoch [7/20] batch [10/28] time 1.517 (1.832) data 0.001 (0.311) loss_x 0.0876 (0.1079) loss_u_aug 0.5165 (0.6893) loss_u_sty 0.8960 (1.0468) y_u_pred_acc_thre 0.9821 (0.9448) y_u_pred_acc_raw 0.6458 (0.6151) y_u_pred_keep_rate 0.2917 (0.3151) lr 2.3817e-03 eta 0:11:39
+epoch [7/20] batch [20/28] time 1.508 (1.835) data 0.001 (0.320) loss_x 0.0896 (0.1044) loss_u_aug 0.7788 (0.6997) loss_u_sty 1.0659 (1.0144) y_u_pred_acc_thre 0.9138 (0.9422) y_u_pred_acc_raw 0.5938 (0.6206) y_u_pred_keep_rate 0.3021 (0.3128) lr 2.3817e-03 eta 0:11:22
+epoch [8/20] batch [10/28] time 1.532 (1.871) data 0.001 (0.339) loss_x 0.0717 (0.0766) loss_u_aug 0.6771 (0.7006) loss_u_sty 0.8499 (0.9362) y_u_pred_acc_thre 0.9194 (0.9182) y_u_pred_acc_raw 0.5573 (0.6219) y_u_pred_keep_rate 0.3229 (0.3469) lr 2.1810e-03 eta 0:11:02
+epoch [8/20] batch [20/28] time 1.527 (1.871) data 0.001 (0.344) loss_x 0.0615 (0.0735) loss_u_aug 0.6476 (0.6942) loss_u_sty 1.2094 (0.9788) y_u_pred_acc_thre 0.9375 (0.9212) y_u_pred_acc_raw 0.6510 (0.6333) y_u_pred_keep_rate 0.3333 (0.3497) lr 2.1810e-03 eta 0:10:43
+epoch [9/20] batch [10/28] time 1.527 (1.855) data 0.001 (0.332) loss_x 0.0760 (0.0672) loss_u_aug 0.6662 (0.7432) loss_u_sty 1.2028 (1.0133) y_u_pred_acc_thre 0.9103 (0.9312) y_u_pred_acc_raw 0.5938 (0.6323) y_u_pred_keep_rate 0.4062 (0.3547) lr 1.9635e-03 eta 0:10:04
+epoch [9/20] batch [20/28] time 1.523 (1.848) data 0.001 (0.329) loss_x 0.0508 (0.0635) loss_u_aug 0.6020 (0.6393) loss_u_sty 0.7796 (0.9171) y_u_pred_acc_thre 0.9143 (0.9319) y_u_pred_acc_raw 0.6094 (0.6258) y_u_pred_keep_rate 0.3646 (0.3552) lr 1.9635e-03 eta 0:09:43
+epoch [10/20] batch [10/28] time 1.517 (1.853) data 0.001 (0.324) loss_x 0.0522 (0.0569) loss_u_aug 0.5425 (0.5661) loss_u_sty 0.7780 (0.8793) y_u_pred_acc_thre 0.9242 (0.9175) y_u_pred_acc_raw 0.6146 (0.6406) y_u_pred_keep_rate 0.3438 (0.3682) lr 1.7347e-03 eta 0:09:12
+epoch [10/20] batch [20/28] time 1.516 (1.857) data 0.001 (0.336) loss_x 0.0590 (0.0545) loss_u_aug 0.7304 (0.6057) loss_u_sty 0.9943 (0.8773) y_u_pred_acc_thre 0.9390 (0.9207) y_u_pred_acc_raw 0.7031 (0.6422) y_u_pred_keep_rate 0.4271 (0.3732) lr 1.7347e-03 eta 0:08:54
+epoch [11/20] batch [10/28] time 1.510 (1.877) data 0.001 (0.355) loss_x 0.0573 (0.0435) loss_u_aug 0.4691 (0.5665) loss_u_sty 0.7068 (0.7715) y_u_pred_acc_thre 0.8732 (0.9096) y_u_pred_acc_raw 0.5573 (0.6318) y_u_pred_keep_rate 0.3698 (0.3870) lr 1.5000e-03 eta 0:08:26
+epoch [11/20] batch [20/28] time 1.515 (1.859) data 0.000 (0.339) loss_x 0.0414 (0.0436) loss_u_aug 0.9484 (0.5792) loss_u_sty 1.1065 (0.8084) y_u_pred_acc_thre 0.9054 (0.9155) y_u_pred_acc_raw 0.6354 (0.6398) y_u_pred_keep_rate 0.3854 (0.3797) lr 1.5000e-03 eta 0:08:03
+epoch [12/20] batch [10/28] time 1.530 (1.823) data 0.001 (0.301) loss_x 0.0412 (0.0414) loss_u_aug 0.6761 (0.5304) loss_u_sty 1.1326 (0.8237) y_u_pred_acc_thre 0.9241 (0.9003) y_u_pred_acc_raw 0.6771 (0.6276) y_u_pred_keep_rate 0.4115 (0.3870) lr 1.2653e-03 eta 0:07:21
+epoch [12/20] batch [20/28] time 1.527 (1.834) data 0.001 (0.313) loss_x 0.0352 (0.0396) loss_u_aug 0.6809 (0.5626) loss_u_sty 0.7189 (0.7531) y_u_pred_acc_thre 0.9342 (0.9044) y_u_pred_acc_raw 0.6250 (0.6292) y_u_pred_keep_rate 0.3958 (0.3826) lr 1.2653e-03 eta 0:07:05
+epoch [13/20] batch [10/28] time 1.524 (1.847) data 0.001 (0.330) loss_x 0.0284 (0.0357) loss_u_aug 0.5406 (0.5210) loss_u_sty 0.7874 (0.7746) y_u_pred_acc_thre 0.9474 (0.8989) y_u_pred_acc_raw 0.6771 (0.6318) y_u_pred_keep_rate 0.3958 (0.3969) lr 1.0365e-03 eta 0:06:35
+epoch [13/20] batch [20/28] time 1.524 (1.851) data 0.001 (0.333) loss_x 0.0319 (0.0354) loss_u_aug 0.8137 (0.5542) loss_u_sty 0.5879 (0.7549) y_u_pred_acc_thre 0.9610 (0.9057) y_u_pred_acc_raw 0.6615 (0.6352) y_u_pred_keep_rate 0.4010 (0.3964) lr 1.0365e-03 eta 0:06:17
+epoch [14/20] batch [10/28] time 1.511 (1.829) data 0.001 (0.308) loss_x 0.0322 (0.0310) loss_u_aug 0.5405 (0.5900) loss_u_sty 0.5432 (0.7809) y_u_pred_acc_thre 0.8333 (0.8935) y_u_pred_acc_raw 0.5625 (0.6276) y_u_pred_keep_rate 0.3750 (0.4099) lr 8.1901e-04 eta 0:05:40
+epoch [14/20] batch [20/28] time 1.526 (1.835) data 0.001 (0.315) loss_x 0.0393 (0.0331) loss_u_aug 0.5826 (0.6036) loss_u_sty 0.8147 (0.8041) y_u_pred_acc_thre 0.9176 (0.9119) y_u_pred_acc_raw 0.6927 (0.6445) y_u_pred_keep_rate 0.4427 (0.4099) lr 8.1901e-04 eta 0:05:22
+epoch [15/20] batch [10/28] time 1.535 (1.836) data 0.001 (0.316) loss_x 0.0284 (0.0339) loss_u_aug 0.5429 (0.5505) loss_u_sty 1.0309 (0.8691) y_u_pred_acc_thre 0.9412 (0.9122) y_u_pred_acc_raw 0.6406 (0.6271) y_u_pred_keep_rate 0.4427 (0.3854) lr 6.1832e-04 eta 0:04:50
+epoch [15/20] batch [20/28] time 1.521 (1.841) data 0.001 (0.324) loss_x 0.0276 (0.0325) loss_u_aug 0.6673 (0.5805) loss_u_sty 0.5709 (0.7795) y_u_pred_acc_thre 0.8721 (0.9054) y_u_pred_acc_raw 0.6302 (0.6349) y_u_pred_keep_rate 0.4479 (0.4016) lr 6.1832e-04 eta 0:04:32
+epoch [16/20] batch [10/28] time 1.507 (1.841) data 0.000 (0.317) loss_x 0.0256 (0.0312) loss_u_aug 0.3849 (0.5089) loss_u_sty 0.7836 (0.7438) y_u_pred_acc_thre 0.8667 (0.9037) y_u_pred_acc_raw 0.6094 (0.6406) y_u_pred_keep_rate 0.4688 (0.4130) lr 4.3934e-04 eta 0:03:59
+epoch [16/20] batch [20/28] time 1.554 (1.845) data 0.001 (0.323) loss_x 0.0283 (0.0311) loss_u_aug 0.4816 (0.4854) loss_u_sty 0.5889 (0.7580) y_u_pred_acc_thre 0.9296 (0.9085) y_u_pred_acc_raw 0.5625 (0.6391) y_u_pred_keep_rate 0.3698 (0.4109) lr 4.3934e-04 eta 0:03:41
+epoch [17/20] batch [10/28] time 1.514 (1.818) data 0.001 (0.297) loss_x 0.0336 (0.0302) loss_u_aug 0.4019 (0.5366) loss_u_sty 0.7873 (0.7021) y_u_pred_acc_thre 0.9275 (0.9019) y_u_pred_acc_raw 0.6510 (0.6313) y_u_pred_keep_rate 0.3594 (0.4156) lr 2.8647e-04 eta 0:03:05
+epoch [17/20] batch [20/28] time 1.521 (1.840) data 0.001 (0.325) loss_x 0.0255 (0.0292) loss_u_aug 0.4395 (0.5463) loss_u_sty 0.6544 (0.6926) y_u_pred_acc_thre 0.8941 (0.9058) y_u_pred_acc_raw 0.6042 (0.6378) y_u_pred_keep_rate 0.4427 (0.4159) lr 2.8647e-04 eta 0:02:49
+epoch [18/20] batch [10/28] time 1.517 (1.832) data 0.001 (0.314) loss_x 0.0258 (0.0284) loss_u_aug 0.7119 (0.5523) loss_u_sty 0.5081 (0.7331) y_u_pred_acc_thre 0.8929 (0.9103) y_u_pred_acc_raw 0.6562 (0.6411) y_u_pred_keep_rate 0.4375 (0.4234) lr 1.6349e-04 eta 0:02:15
+epoch [18/20] batch [20/28] time 1.518 (1.837) data 0.001 (0.321) loss_x 0.0330 (0.0296) loss_u_aug 0.4404 (0.5569) loss_u_sty 0.7696 (0.7525) y_u_pred_acc_thre 0.9077 (0.9109) y_u_pred_acc_raw 0.5781 (0.6362) y_u_pred_keep_rate 0.3385 (0.4151) lr 1.6349e-04 eta 0:01:57
+epoch [19/20] batch [10/28] time 1.515 (1.849) data 0.001 (0.336) loss_x 0.0294 (0.0296) loss_u_aug 0.7193 (0.5322) loss_u_sty 0.7243 (0.6931) y_u_pred_acc_thre 0.8876 (0.8998) y_u_pred_acc_raw 0.6615 (0.6422) y_u_pred_keep_rate 0.4635 (0.4130) lr 7.3415e-05 eta 0:01:25
+epoch [19/20] batch [20/28] time 1.510 (1.836) data 0.001 (0.323) loss_x 0.0277 (0.0287) loss_u_aug 0.3483 (0.5227) loss_u_sty 0.6605 (0.6792) y_u_pred_acc_thre 0.9125 (0.9102) y_u_pred_acc_raw 0.6198 (0.6464) y_u_pred_keep_rate 0.4167 (0.4133) lr 7.3415e-05 eta 0:01:06
+epoch [20/20] batch [10/28] time 1.514 (1.860) data 0.001 (0.348) loss_x 0.0277 (0.0277) loss_u_aug 0.3366 (0.5796) loss_u_sty 0.7589 (0.7253) y_u_pred_acc_thre 0.8732 (0.8977) y_u_pred_acc_raw 0.5365 (0.6250) y_u_pred_keep_rate 0.3698 (0.3875) lr 1.8467e-05 eta 0:00:33
+epoch [20/20] batch [20/28] time 1.518 (1.851) data 0.001 (0.337) loss_x 0.0248 (0.0279) loss_u_aug 0.6601 (0.5705) loss_u_sty 0.6944 (0.7193) y_u_pred_acc_thre 0.9512 (0.8989) y_u_pred_acc_raw 0.6406 (0.6297) y_u_pred_keep_rate 0.4271 (0.4073) lr 1.8467e-05 eta 0:00:14
+Checkpoint saved to output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9/G/model.pth.tar-20
+Checkpoint saved to output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9/C/model.pth.tar-20
+Finish training
+Evaluate on the *test* set
+=> result
+* total: 4,439
+* correct: 2,888
+* accuracy: 65.1%
+* error: 34.9%
+* macro_f1: 61.0%
+Checkpoint saved to output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9/G/model.pth.tar-20
+Checkpoint saved to output/20230814/fact_mixstyle_fea_gaosi2_10seed/ssdg_officehome/nlab_975/StyleMatch/resnet18/v1/product/seed9/C/model.pth.tar-20
+Elapsed: 0:19:02
